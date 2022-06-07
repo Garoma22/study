@@ -9,20 +9,12 @@ public class GeometryCalculator {
 
     // метод должен использовать абсолютное значение radius
     public static double getSphereVolume(double radius) {
-        return 4 / 3 * Math.PI * Math.pow(radius, 3);
+        return 4.0 / 3.0 * Math.PI * Math.pow(radius, 3);
     }
 
     public static boolean isTriangleRightAngled(double a, double b, double c) {
 
-        if (a + b > c) {
-            if (a + c > b) {
-                if (b + c > a) {
-                }
-            }
-            return true;
-        } else {
-            return false;
-        }
+        return (a + b > c) && (a + c > b) && (b + c > a);
     }
 
     // перед расчетом площади рекомендуется проверить возможен ли такой треугольник
@@ -32,8 +24,7 @@ public class GeometryCalculator {
         if (isTriangleRightAngled(a, b, c)) {
 
             double p = (a + b + c) / 2;
-            double s = Math.sqrt(p * (p - a) * (p - b) * (p - c));
-            return s;
+            return Math.sqrt(p * (p - a) * (p - b) * (p - c));
         } else {
             return -1.0;
         }
