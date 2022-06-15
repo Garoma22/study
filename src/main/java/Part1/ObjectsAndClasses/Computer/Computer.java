@@ -70,15 +70,11 @@ class Computer {
                 + "____BACKLIGHT : " + keyboard.backlight + '\n'
                 + "____WEIGHT : " + keyboard.weight;
     }
-
-
     void countWeight() {
         double totalWeight = keyboard.weight + monitor.weight + storage.weight + ram.weight + processor.weight;
         System.out.println();
         System.out.println("Total weight is : " + totalWeight);
     }
-
-
 }
 
 
