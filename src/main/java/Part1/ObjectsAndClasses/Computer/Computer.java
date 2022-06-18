@@ -4,47 +4,22 @@ class Computer {
 
     private final String name;
     private final String vendor;
-    private final Processor processor;
-    private final RAM ram;
-    private final Storage storage;
-    private final Monitor monitor;
-    private final Keyboard keyboard;
+    private Processor processor;
+    private RAM ram;
+    private Storage storage;
+    private Monitor monitor;
+    private Keyboard keyboard;
 
     public Computer(String name, String manufacturer) {
         this.name = name;
         this.vendor = manufacturer;
-        this.processor = new Processor();
-        this.ram = new RAM();
-        this.storage = new Storage();
-        this.monitor = new Monitor();
-        this.keyboard = new Keyboard();
+        this.processor = getProcessor();
+        this.ram = getRam();
+        this.storage = getStorage();
+        this.monitor = getMonitor();
+        this.keyboard = getKeyboard();   // подставляем геттеры в качестве ссылок на объект.
     }
-    static final class Processor {
-        final int frequency = 1700;
-        final String core = "M1";
-        final String manufacturer = "Apple";
-        final double weight = 900;
-    }
-    static final class RAM {    //random access memory;
-        final String type = "DDR4";
-        final int volumeRAM = 16;
-        final double weight = 125;
-    }
-    static final class Storage {
-        final String type = "SSD";
-        final int volumeStorage = 512;
-        final double weight = 230;
-    }
-    static final class Monitor {
-        final int diagonal = 26;
-        final String type = "IPS";  // IPS, TN, VA
-        final double weight = 1550;
-    }
-    static class Keyboard {
-        final String type = "Wireless";
-        final boolean backlight = true;
-        final double weight = 450;
-    }
+
     @Override
     public String toString() {
         return " COMPUTER NAME : " + name + '\n' +
@@ -71,14 +46,94 @@ class Computer {
                 + "____WEIGHT : " + keyboard.weight;
     }
 
-
     void countWeight() {
         double totalWeight = keyboard.weight + monitor.weight + storage.weight + ram.weight + processor.weight;
         System.out.println();
         System.out.println("Total weight is : " + totalWeight);
     }
 
+    public String getName() {
+        return name;
+    }
 
+    public String getVendor() {
+        return vendor;
+    }
+
+    public Processor getProcessor() {
+        return processor;
+    }
+
+    public void setProcessor(Processor processor) {
+        this.processor = processor;
+    }
+
+    public RAM getRam() {
+        return ram;
+    }
+
+    public void setRam(RAM ram) {
+        this.ram = ram;
+    }
+
+    public Storage getStorage() {
+        return storage;
+    }
+
+    public void setStorage(Storage storage) {
+        this.storage = storage;
+    }
+
+    public Monitor getMonitor() {
+        return monitor;
+    }
+
+    public void setMonitor(Monitor monitor) {
+        this.monitor = monitor;
+    }
+
+    public Keyboard getKeyboard() {
+        return keyboard;
+    }
+
+    public void setKeyboard(Keyboard keyboard) {
+        this.keyboard = keyboard;
+    }
+}
+
+class Processor {
+    final int frequency = 1700;
+    final String core = "M1";
+    final String manufacturer = "Apple";
+    final double weight = 900;
+}
+
+class RAM {    //random access memory;
+    final String type = "DDR4";
+    final int volumeRAM = 16;
+    final double weight = 125;
+}
+
+class Storage {
+    final String type = "SSD";
+    final int volumeStorage = 512;
+    final double weight = 230;
+}
+
+class Monitor {
+    final int diagonal = 26;
+    final String type = "IPS";  // IPS, TN, VA
+    final double weight = 1550;
+}
+
+class Keyboard {
+    final String type = "Wireless";
+    final boolean backlight = true;
+    final double weight = 450;
+
+    public double getWeight() {
+        return weight;
+    }
 }
 
 
