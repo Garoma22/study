@@ -6,7 +6,6 @@ import static Part1.ObjectsAndClasses.Computer.Computer.*;
 public class Main {
     public static void main(String[] args) {
 
-
         Computer computer1 = new Computer("My computer", "Apple");
 
         Processor processor = new Processor();

@@ -13,11 +13,6 @@ class Computer {
     public Computer(String name, String manufacturer) {
         this.name = name;
         this.vendor = manufacturer;
-        this.processor = getProcessor();
-        this.ram = getRam();
-        this.storage = getStorage();
-        this.monitor = getMonitor();
-        this.keyboard = getKeyboard();   // подставляем геттеры в качестве ссылок на объект.
     }
 
     @Override
