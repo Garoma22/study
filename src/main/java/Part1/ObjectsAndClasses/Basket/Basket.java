@@ -46,20 +46,17 @@ public class Basket {
     // дополнительный метод
     public void add(String name, int price, int count, double weight){
 
-        add(name,price);
         add(name,price,count);
 
-        if (weight>0) {
-                totalWeight = totalWeight + weight;
-            }
+        totalWeight = totalWeight + weight;
         }
 
-        public double getTotalWeight(){
-        return totalWeight;
+        public void getTotalWeight(){
+            System.out.println("Общий вес продуктов : " + totalWeight);
         }
 
-        public double getTotalPrice(){
-        return totalPrice;
+        public void getTotalPrice(){
+            System.out.println("Общая цена продуктов : " + totalPrice);
         }
 
     public void clear() {
