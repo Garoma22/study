@@ -9,7 +9,7 @@ public class HumanitarianAid {
         int totalBoxes = Boxes.countBoxes(555);
         int totalContainers = Containers.countContainers();
         int totalTrucks = Truck.countTrucks();
-        int empty_container_exception = 1;
+        int empty_truck_exception = 1;   // вспомогательная переменная
 
 
         int[] TRUCK_CAPACITY = new int[12];
@@ -34,7 +34,7 @@ public class HumanitarianAid {
                 continue;
             }
             if (
-                    k > empty_container_exception && k % TRUCK_CAPACITY.length == 1) {  // смысл условия, чтобы оно выполнялось только когда k==13 или кратному 12, но не 1.
+                    k > empty_truck_exception && k % TRUCK_CAPACITY.length == 1) {  // смысл условия, чтобы оно выполнялось только когда k==13 или кратному 12+1, но не 1.
                 // если делим меньшее число на большее по модулю
                 // то остаток от деления равен делимому. В данном случае 1. Получается вывод НЕКОРРЕКТНЫЙ,
                 // поэтому для первой итерации цикла добавляем условие k>1. Чтобы k всегда делилось было 13, 25 и
