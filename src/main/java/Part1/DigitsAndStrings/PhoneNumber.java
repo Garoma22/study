@@ -1,92 +1,75 @@
 package Part1.DigitsAndStrings;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.security.Principal;
 import java.util.*;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class PhoneNumber {
-
     public static void main(String[] args) throws IOException {
-
-        List<ArrayList> allNumbers = new ArrayList<>();
-        findList(allNumbers);
-        System.out.println(allNumbers);
+        System.out.println("База телефонных номеров подгружена в PN3.txt");
+        clearStrings(scanFile(getNewFile()));
     }
-    static void findList(List<ArrayList> allNumbers) {
+    static File getNewFile() {
+        String path = "C:\\IdeaProjects\\SergeCourse\\PN3.txt";
+        return new File(path);
+    }
+    public static List scanFile(File newFile) throws FileNotFoundException {
+        Scanner scanner = new Scanner(getNewFile());
+        String patternString = "^(\\+?[7-9]?[\\s?\\S?]\\(?)?9\\d\\d[\\s?\\S?]\\s?\\d{3}\\D?\\d{2}\\D?\\d{2}$";
+        Pattern p = Pattern.compile(patternString);
 
-        final int STANDART_NUM_LENGTH = 11;
+        List<String> validNumbers = new ArrayList<>();
+        while (scanner.hasNextLine()) {
+            String line = scanner.nextLine();
+            Matcher m = p.matcher(line);
+            if (m.find()) {
+                validNumbers.add(line);
+            }
+        }
+        scanner.close();
+        return validNumbers;
+    }
 
-        while (true) {
-            ArrayList<String> stArr = new ArrayList<>();
-            Scanner scanner = new Scanner(System.in);
-            System.out.println("Insert phone number: ");
+    static void clearStrings(List<String> validNumbers) {
+        int normalLength = 11;
+        ArrayList<String> cleanString = new ArrayList<>();
+        List<List> finalList = new ArrayList<>();
 
-            String num = scanner.nextLine();
-            Pattern p = Pattern.compile("\\D*");
-
-            Matcher m = p.matcher(num);  // не использую, надо номера в список добавить
-
-
-            String[] ss = num.split("\\D*");
-            System.out.println("Initial Phone number :");
-            System.out.println(Arrays.toString(ss));
-            for (String i : ss) {
+        for (String oneString : validNumbers) {
+            String[] sStingArr = oneString.split("\\D*");
+            if (sStingArr[0].equals("8")) {
+                sStingArr[0] = "7";
+            }
+            for (String i : sStingArr) {
                 if (!i.equals("")) {
-                    stArr.add(i);
+                    cleanString.add(i);
                 }
             }
-            System.out.println("Get clear array :\n " + stArr);
-            if (stArr.size() == STANDART_NUM_LENGTH) {
-                if (stArr.get(0).equals("8")) {
-                    stArr.set(0, "7");
-                    allNumbers.add((ArrayList) stArr.clone());
-                    System.out.println("Символов 11 в номере, первый символ 8" +
-                            " (код выхода на мобильный номер) заменяем на код страны 7 — номер верный.");
-                    System.out.println(allNumbers);
-                    continue;
+            finalList.add((List) cleanString.clone());
+            cleanString.clear();
+        }
+        for (List s : finalList) {
+            if (s.size() == normalLength - 1) {
+                if (s.get(0).equals("9")) {
+                    s.add(0, "7");
                 }
             }
-            if (stArr.get(0).equals("7")) {
-                System.out.println("Символов 11 в номере, код страны 7 — номер верный.");
-                allNumbers.add((ArrayList) stArr.clone());
-                System.out.println(allNumbers);
-                continue;
+        }
+        for (List s : finalList) {
+            String[] utillsArr =new String[normalLength];
+            for (int i = 0; i < s.size(); i++) {
+                utillsArr[i] = (String) s.get(i);
             }
-            if (stArr.get(0).equals("9")) {
-                System.out.println("Неверный формат номера: Символов 11 в номере, " +
-                        "первый символ после очистки 9, это не 7 и не 8 — формат номера неверный.");
-
-                System.out.println(allNumbers);
-            }
-
-            if (stArr.size() == STANDART_NUM_LENGTH - 1) {
-                if (stArr.get(0).equals("9")) {
-                    stArr.add(0, "7");
-                    allNumbers.add((ArrayList) stArr.clone());
-                    System.out.println("Количество символов 10 после очистки — значит, приводим к формату номера с 7.");
-                    //stArr.clear();
-                    System.out.println(allNumbers);
-                    continue;
-                }
-            }
-            if (stArr.size() > STANDART_NUM_LENGTH) {
-                System.out.println("Символов в номере больше чем 11 — номер неверный.");
-                System.out.println(allNumbers);
-                continue;
-            }
-            if (stArr.size() < 9) {
-                System.out.println("В номере " + stArr.size() + " символов — номер неверный.");
-                System.out.println(allNumbers);
-            }
+            String arrToString = String.join("",utillsArr);
+            System.out.println(arrToString);
         }
     }
 }
-
 
 
 
