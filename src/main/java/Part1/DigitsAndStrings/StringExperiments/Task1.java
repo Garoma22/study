@@ -6,18 +6,15 @@ import java.util.SortedMap;
 
 public class Task1 {
     public static void main(String[] args) {
-        String literals = "abcdefghijklmnopqrstuvwxyz";
-        literals = literals.toUpperCase(Locale.ROOT);
-        abc(literals);
+        abc();
     }
-    static void abc(String l) {
-        char[] chars = l.toCharArray();
-        for (char c : chars){
-            System.out.println( c + " : " + Character.getNumericValue(c));
+    static void abc() {
+        for (char i = 'a'; i < 'z'; i++) {
+            System.out.println( i + " : " + Character.getNumericValue(i));
         }
         System.out.println("____________");
-        for (char c : chars){
-            System.out.println( c + " : " + Character.getName(c));
+        for (char i = 'a'; i < 'z'; i++) {
+            System.out.println( i + " : " + Character.getName(i));
         }
     }
 }
