@@ -1,75 +1,138 @@
 package Part1.DigitsAndStrings;
 
 import java.awt.*;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 import java.util.List;
+import java.util.function.ToDoubleBiFunction;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static java.lang.Integer.*;
+
 public class PhoneNumber {
-    public static void main(String[] args) throws IOException {
-        System.out.println("База телефонных номеров подгружена в PN3.txt");
-        clearStrings(scanFile(getNewFile()));
+    public static void main(String[] args) throws FileNotFoundException {
+
+        //СТРОКА -ССЫЛКА :        C:\\IdeaProjects\\SergeCourse\\PN3.txt
+
+        System.out.println("Введите ссылку на файл в формате: " +
+                "C: / IdeaProjects / SergeCourse / PN3.txt");
+
+        //Создаем объекты:
+        FileProcessing fileProcessing1 = new FileProcessing();
+        RegexProcessing regexProcessing1 = new RegexProcessing();
+        Map map1 = new Map();
+
+        // Сканируем файл:
+        regexProcessing1.putNumsToLists(fileProcessing1.scanFile());
+
+        // Отдельно кладем в HashMap списки валидных и невалидных номеров:
+        System.out.println("Hashmap с валидными и невалидными номерами : ");
+        System.out.println(map1.fillMap(regexProcessing1.getValids(), regexProcessing1.getInvalids()));
+
+        System.out.println();
+        System.out.println("Невалидные номера: ");
+        System.out.println(regexProcessing1.getInvalids());
+
+        System.out.println();
+        System.out.println("Валидные номера: ");
+        System.out.println(regexProcessing1.getValids());
+
+        // форматируем строки (без удаления непечатных символов):
+        ArrayList<String> validSTR = regexProcessing1.uniformValidStrings();
+
+        // убираем пробелы и другие нецифровые символы:
+        regexProcessing1.clearNondigits(validSTR);
+        ArrayList<String> finalList = regexProcessing1.clearNondigits(regexProcessing1.uniformValidStrings());
+
+        // печатаем список корректных номеров:
+        for (String s : finalList) {
+            System.out.println(s);
+        }
+        //строка - ссылка       C:\\IdeaProjects\\SergeCourse\\PN3.txt
     }
-    static File getNewFile() {
-        String path = "C:\\IdeaProjects\\SergeCourse\\PN3.txt";
+}
+class FileProcessing {
+    File scanFile() {
+        Scanner scanner = new Scanner(System.in);
+        String path = scanner.nextLine();
         return new File(path);
     }
-    public static List scanFile(File newFile) throws FileNotFoundException {
-        Scanner scanner = new Scanner(getNewFile());
-        String patternString = "^(\\+?[7-9]?[\\s?\\S?]\\(?)?9\\d\\d[\\s?\\S?]\\s?\\d{3}\\D?\\d{2}\\D?\\d{2}$";
-        Pattern p = Pattern.compile(patternString);
+}
+class RegexProcessing {
 
-        List<String> validNumbers = new ArrayList<>();
+    String patternString = "^(\\+?[7-9]?[\\s?\\S?]\\(?)?9\\d\\d([\\s?\\S?])?\\s?\\d{3}\\D?\\d{2}\\D?\\d{2}$";
+    Pattern p = Pattern.compile(patternString);
+
+    public List<String> valids = new ArrayList<>();
+    public List<String> invalids = new ArrayList<>();
+
+    void putNumsToLists(File scanFile) throws FileNotFoundException {
+        Scanner scanner = new Scanner(scanFile);
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             Matcher m = p.matcher(line);
+
             if (m.find()) {
-                validNumbers.add(line);
+                valids.add(line);
+            } else {
+                invalids.add(line);
             }
         }
         scanner.close();
-        return validNumbers;
+    }
+    List<String> getInvalids() {
+        return invalids;
     }
 
-    static void clearStrings(List<String> validNumbers) {
-        int normalLength = 11;
-        ArrayList<String> cleanString = new ArrayList<>();
-        List<List> finalList = new ArrayList<>();
+    List<String> getValids() {
+        return valids;
+    }
 
-        for (String oneString : validNumbers) {
-            String[] sStingArr = oneString.split("\\D*");
-            if (sStingArr[0].equals("8")) {
-                sStingArr[0] = "7";
+    //                       C:\\IdeaProjects\\SergeCourse\\PN3.txt
+
+    ArrayList<String> uniformValidStrings() {
+        ArrayList<String> validStringsList = new ArrayList<>();
+
+        for (String s : getValids()) {
+            if (s.startsWith("8", 0)) {
+                String s1 = s.replaceFirst("8", "7");
+                validStringsList.add(s1);
             }
-            for (String i : sStingArr) {
-                if (!i.equals("")) {
-                    cleanString.add(i);
-                }
+            if (s.startsWith("9", 0)) {
+                String s1 = "7" + s;
+                validStringsList.add(s1);
             }
-            finalList.add((List) cleanString.clone());
-            cleanString.clear();
-        }
-        for (List s : finalList) {
-            if (s.size() == normalLength - 1) {
-                if (s.get(0).equals("9")) {
-                    s.add(0, "7");
-                }
+            if (s.startsWith("+7")) {
+                validStringsList.add(s);
             }
         }
-        for (List s : finalList) {
-            String[] utillsArr =new String[normalLength];
-            for (int i = 0; i < s.size(); i++) {
-                utillsArr[i] = (String) s.get(i);
+        return validStringsList;
+    }
+    ArrayList<String> clearNondigits(ArrayList<String> list) {   // в параметры идет validStringsList;
+        ArrayList<String> finalList = new ArrayList<>();
+
+        for (String s : getValids()) {
+            if (!s.contains(" ") &&
+                    !s.contains("+") &&
+                    !s.contains(")") &&
+                    !s.contains("(") &&
+                    !s.contains("-")) {
+                finalList.add(s);
             }
-            String arrToString = String.join("",utillsArr);
-            System.out.println(arrToString);
         }
+        for (String s : list) {
+            String s1 = s.replaceAll("\\D", "");
+            finalList.add(s1);
+        }
+        return finalList;
     }
 }
-
-
-
+class Map {
+    HashMap<String, List<String>> commonMap = new HashMap<>();
+    HashMap<String, List<String>> fillMap(List<String> valids, List<String> invalids) {
+        commonMap.put("Невалидные номера", invalids);
+        commonMap.put("Валидные номера", valids);
+        return commonMap;
+    }
+}
