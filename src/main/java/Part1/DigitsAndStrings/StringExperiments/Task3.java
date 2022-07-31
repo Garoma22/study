@@ -23,5 +23,6 @@ class Card {
         int finish = text.indexOf(">");
         String toHide = text.substring(start , finish+1);
         return text.replace(toHide, "***");
+
     }
 }
