@@ -1,14 +1,10 @@
-package Part1.DigitsAndStrings;
+package Part1.DigitsAndStrings.PhoneNumber;
 
-import java.awt.*;
 import java.io.*;
 import java.util.*;
 import java.util.List;
-import java.util.function.ToDoubleBiFunction;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static java.lang.Integer.*;
 
 public class PhoneNumber {
     public static void main(String[] args) throws FileNotFoundException {
@@ -21,7 +17,7 @@ public class PhoneNumber {
         //Создаем объекты:
         FileProcessing fileProcessing1 = new FileProcessing();
         RegexProcessing regexProcessing1 = new RegexProcessing();
-        Map map1 = new Map();
+        TotalMap map1 = new TotalMap();
 
         // Сканируем файл:
         regexProcessing1.putNumsToLists(fileProcessing1.scanFile());
@@ -39,11 +35,11 @@ public class PhoneNumber {
         System.out.println(regexProcessing1.getValids());
 
         // форматируем строки (без удаления непечатных символов):
-        ArrayList<String> validSTR = regexProcessing1.uniformValidStrings();
+        List<String> validSTR = regexProcessing1.uniformValidStrings();
 
         // убираем пробелы и другие нецифровые символы:
         regexProcessing1.clearNondigits(validSTR);
-        ArrayList<String> finalList = regexProcessing1.clearNondigits(regexProcessing1.uniformValidStrings());
+        List<String> finalList = regexProcessing1.clearNondigits(regexProcessing1.uniformValidStrings());
 
         // печатаем список корректных номеров:
         for (String s : finalList) {
@@ -91,8 +87,8 @@ class RegexProcessing {
 
     //                       C:\\IdeaProjects\\SergeCourse\\PN3.txt
 
-    ArrayList<String> uniformValidStrings() {
-        ArrayList<String> validStringsList = new ArrayList<>();
+    List<String> uniformValidStrings() {
+        List<String> validStringsList = new ArrayList<>();
 
         for (String s : getValids()) {
             if (s.startsWith("8", 0)) {
@@ -109,8 +105,8 @@ class RegexProcessing {
         }
         return validStringsList;
     }
-    ArrayList<String> clearNondigits(ArrayList<String> list) {   // в параметры идет validStringsList;
-        ArrayList<String> finalList = new ArrayList<>();
+    List<String> clearNondigits(List<String> list) {   // в параметры идет validStringsList;
+        List<String> finalList = new ArrayList<>();
 
         for (String s : getValids()) {
             if (!s.contains(" ") &&
@@ -128,9 +124,9 @@ class RegexProcessing {
         return finalList;
     }
 }
-class Map {
-    HashMap<String, List<String>> commonMap = new HashMap<>();
-    HashMap<String, List<String>> fillMap(List<String> valids, List<String> invalids) {
+class TotalMap {
+    Map<String, List<String>> commonMap = new HashMap<>();
+    Map<String, List<String>> fillMap(List<String> valids, List<String> invalids) {
         commonMap.put("Невалидные номера", invalids);
         commonMap.put("Валидные номера", valids);
         return commonMap;
