@@ -10,11 +10,11 @@ import java.util.regex.Pattern;
 
 class RegexProcessing {
 
-    String patternString = "^(\\+?[7-9]?[\\s?\\S?]\\(?)?9\\d\\d([\\s?\\S?])?\\s?\\d{3}\\D?\\d{2}\\D?\\d{2}$";
-    Pattern p = Pattern.compile(patternString);
+    private final String patternString = "^(\\+?[7-9]?[\\s?\\S?]\\(?)?9\\d\\d([\\s?\\S?])?\\s?\\d{3}\\D?\\d{2}\\D?\\d{2}$";
+    private final Pattern p = Pattern.compile(patternString);
 
-    public List<String> valids = new ArrayList<>();
-    public List<String> invalids = new ArrayList<>();
+   private final List<String> valids = new ArrayList<>();
+   private final List<String> invalids = new ArrayList<>();
 
     void putNumsToLists(File scanFile) throws FileNotFoundException {
         Scanner scanner = new Scanner(scanFile);
@@ -31,17 +31,17 @@ class RegexProcessing {
         scanner.close();
     }
 
-    List<String> getInvalids() {
+    public List<String> getInvalids() {
         return invalids;
     }
 
-    List<String> getValids() {
+    public List<String> getValids() {
         return valids;
     }
 
     //                       C:\\IdeaProjects\\SergeCourse\\PN3.txt
 
-    List<String> uniformValidStrings() {
+   public List<String> uniformValidStrings() {
         List<String> validStringsList = new ArrayList<>();
 
         for (String s : getValids()) {
@@ -60,7 +60,7 @@ class RegexProcessing {
         return validStringsList;
     }
 
-    List<String> clearNondigits(List<String> list) {   // в параметры идет validStringsList;
+   public List<String> clearNondigits(List<String> list) {   // в параметры идет validStringsList;
         List<String> finalList = new ArrayList<>();
 
         for (String s : getValids()) {

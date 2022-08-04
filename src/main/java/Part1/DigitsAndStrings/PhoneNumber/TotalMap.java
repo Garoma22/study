@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 class TotalMap {
-    Map<String, List<String>> commonMap = new HashMap<>();
+  private final Map<String, List<String>> commonMap = new HashMap<>();
 
     Map<String, List<String>> fillMap(List<String> valids, List<String> invalids) {
         commonMap.put("Невалидные номера", invalids);

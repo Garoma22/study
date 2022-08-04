@@ -34,7 +34,7 @@ public class PhoneNumber {
         System.out.println("Валидные номера: ");
         System.out.println(regexProcessing1.getValids());
 
-        // форматируем строки (без удаления непечатных символов):
+        // форматируем строки (без удаления нецифровых символов):
         List<String> validSTR = regexProcessing1.uniformValidStrings();
 
         // убираем пробелы и другие нецифровые символы:
