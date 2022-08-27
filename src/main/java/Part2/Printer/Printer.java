@@ -2,41 +2,47 @@ package Part2.Printer;
 
 import java.io.*;
 import java.util.*;
-
 public class Printer {
 
+    private final List<Document> documents;
     private int appendedPagesCount = 0;
     private int printedPagesCount = 0;
 
-    public File appendFile(File onePage) {
-        appendedPagesCount++;
-        return onePage;
+    public Printer() {
+        this.documents = new ArrayList<>();
     }
-    public void append_And_Print_SubList(List<File> sublist) throws FileNotFoundException {
-        for (File f : sublist) {
-            appendedPagesCount++;
-            print(f);
+    public void appendDocument(Document d) {
+        documents.add(d);
+        appendedPagesCount += d.getQueue().size(); // размер листа.
+    }
+    public void print() throws FileNotFoundException {
+        for (Document f : documents) {
+            for (File file : f.getQueue()) {
+                printedPagesCount++;
+                Scanner scanner = new Scanner(file);
+                while (scanner.hasNextLine()) {
+                    System.out.println(scanner.nextLine());
+                }
+                scanner.close();
+            }
         }
     }
-    public void print(File file) throws FileNotFoundException {
-        printedPagesCount++;
-        Scanner scanner = new Scanner(file);
-        while (scanner.hasNextLine()) {
-            System.out.println(scanner.nextLine());
-        }
-        scanner.close();
+    public void clear() {
+        documents.clear();
+        appendedPagesCount = 0;
     }
-    public void clear(List<File> sublist) {
-        sublist.clear();
+    public void getPendingPagesCount() {
+        System.out.println("В очереди на печать страниц: " + appendedPagesCount);
     }
-    public int getPendingPagesCount() {
-        return appendedPagesCount;
-    }
-
-    public int getPrintedPagesCount() {
-        return printedPagesCount;
+    public void getPrintedPagesCount() {
+        System.out.println("Всего напечатано страниц: " + printedPagesCount);
     }
 }
+
+
+
+
+
 
 
 

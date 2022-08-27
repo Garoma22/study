@@ -8,9 +8,15 @@ import java.util.List;
 import java.util.Random;
 
 class Document {
-    private final List<File> queue = new ArrayList<>();
-    private int countPage = 0;
+     private final List<File> queue;
+     private static int countPage = 0;
 
+    public Document(int countPages) throws IOException {   // сколько страниц в одном документе
+        this.queue = new ArrayList<>();
+        for (int i = 0; i < countPages; i++) {
+            newFile();
+        }
+    }
     public void newFile() throws IOException {
         countPage++;
         Random random = new Random();
@@ -23,11 +29,9 @@ class Document {
             pw.println(random.nextInt(10));
         }
         pw.println();
-
         pw.close();
         queue.add(file);
     }
-
     public List<File> getQueue() {
         return queue;
     }
