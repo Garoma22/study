@@ -1,31 +1,53 @@
 package Part2.TodoList;
 
+import javax.swing.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class TodoList {
 
+    private final List<String> schedule = new ArrayList<>();
+
+    public List<String> getSchedule() {
+        return schedule;
+    }
+
     public void add(String todo) {
-        // TODO: добавьте переданное дело в конец списка
+        schedule.add(todo);
     }
 
-    public void add(int index, String todo) {
-        // TODO: добавьте дело на указаный индекс,
-        //  проверьте возможность добавления
+    public void insert(int index, String todo) {
+        if (schedule.size() + 1 >= index) {
+            schedule.add(index, todo);
+        } else {
+            System.out.println("Вставка невозможна, лист короткий");
+        }
     }
-
     public void edit(int index, String todo) {
-        // TODO: заменить дело на index переданным todo индекс,
-        //  проверьте возможность изменения
+        schedule.remove(index);
+        schedule.add(index, todo);
     }
 
     public void delete(int index) {
-        // TODO: удалить дело находящееся по переданному индексу,
-        //  проверьте возможность удаления дела
+        if (index <= schedule.size() + 1) {
+            schedule.remove(index);}
+        else {
+            System.out.println("Такого индекса нет");
+        }
     }
-
-    public ArrayList<String> getTodos() {
-        // TODO: вернуть список дел
-        return new ArrayList<>();
+    public List<String> getTodos() {
+        System.out.println(schedule);
+        return schedule;
     }
-
+    public void showList() {
+        int counter = 0;
+        System.out.println("TodoList :");
+        for (String s : schedule) {
+            counter++;
+            System.out.println(counter + ". " + s);
+        }
+    }
 }
+
+
+
