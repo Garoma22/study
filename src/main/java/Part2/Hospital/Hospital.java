@@ -6,20 +6,16 @@ public class Hospital {
     public static final int MIN_TEMP = 32;
     public static final float MIN_TEMP_FOR_HEALTH = 36.2f;
     public static final float MAX_TEMP_FOR_HEALTH = 36.9f;
-
     private static int sumOfTemperatures = 0;
     private static int countHealthy = 0;
-
-
     public static float[] generatePatientsTemperatures(int patientsCount) {
         float[] arr = new float[patientsCount];
 
-        for (int i = 0; i < arr.length; i++) {
-            int diff = MAX_TEMP - MIN_TEMP;
-            arr[i] = (float) (Math.random() * diff) + 32;
-            float scale = (float) Math.pow(10, 1);
-            arr[i] = (float) (Math.ceil(arr[i] * scale) / scale);
-            sumOfTemperatures += arr[i];
+            for (int i = 0; i<arr.length; i++){
+                int diff = MAX_TEMP - MIN_TEMP;
+                float scale = (float) Math.pow(10, 1);
+                arr[i] = (float) ((Math.ceil((Math.random() * diff) + 32))*scale)/scale;
+                sumOfTemperatures += arr[i];
 
             if (arr[i] >= MIN_TEMP_FOR_HEALTH
                     && arr[i] <= MAX_TEMP_FOR_HEALTH) {
@@ -28,7 +24,6 @@ public class Hospital {
         }
         return arr;
     }
-
     public static String getReport(float[] temperatureData) {
         StringBuilder sb = new StringBuilder();
         for (float temperaturePerson : temperatureData) {
