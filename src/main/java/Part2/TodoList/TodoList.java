@@ -8,14 +8,18 @@ import static Part2.TodoList.Main.todoList;
 
 public class TodoList {
     private final List<String> schedule = new ArrayList<>();
+    private final Scanner scanner;
 
+    public TodoList(Scanner scanner) {
+        this.scanner = scanner;
+    }
     public void add(String todo) {
         schedule.add(todo);
     }
 
     public void insert(int index, String todo) {
         if (index >= 1 && index <= schedule.size()) {
-            schedule.add(index -1, todo);
+            schedule.add(index - 1, todo);
         } else {
             schedule.add(todo);
         }
@@ -23,7 +27,7 @@ public class TodoList {
     public void edit(int index, String todo) {
         if (index >= 1 && index <= schedule.size()) {
             schedule.remove(index - 1);
-            schedule.add(index-1, todo);
+            schedule.add(index - 1, todo);
         } else {
             System.out.println("Редактировать нечего или такого индекса нет");
         }
@@ -49,7 +53,6 @@ public class TodoList {
     public void checkRegex() {
         while (true) {
             System.out.println("Введите команду: ");
-            Scanner scanner = new Scanner(System.in);
             String ss = String.valueOf(scanner.nextLine());
 
             String listing = "LIST";
@@ -66,9 +69,7 @@ public class TodoList {
                 todoList.add(scanner.nextLine());
             }
             if (ss.matches(addOnIndex)) {      // выковыриваем цифру индекса из строки
-                String[] arr = ss.split(" ");
-                int num = Integer.parseInt(arr[1]);
-
+                int num = getNum(ss);
                 System.out.println("Сделайте запись (индекс уже определен) : ");
                 todoList.insert(num, scanner.nextLine());
             }
@@ -76,14 +77,12 @@ public class TodoList {
                 if (todoList.getSchedule().size() == 0) {
                     System.out.println("Лист пустой");
                 }
-                String[] arr = ss.split(" ");
-                int num = Integer.parseInt(arr[1]);
+                int num = getNum(ss);
                 System.out.println("Замените пункт (индекс уже определен) : ");
                 todoList.edit(num, scanner.nextLine());
             }
             if (ss.matches(deleting)) {
-                String[] arr = ss.split(" ");
-                int num = Integer.parseInt(arr[1]);
+                int num = getNum(ss);
                 if (num < 1) {
                     num = 0;
                 }
@@ -92,7 +91,13 @@ public class TodoList {
             }
         }
     }
+    public int getNum(String ss) {
+        String[] arr = ss.split(" ");
+        return Integer.parseInt(arr[1]);
+    }
 }
+
+
 
 
 
