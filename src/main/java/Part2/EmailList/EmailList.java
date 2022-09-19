@@ -1,11 +1,13 @@
 package Part2.EmailList;
 
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class EmailList {
-    final Set<String> emails = new TreeSet<>();
+    private final Set<String> emails = new TreeSet<>();
+
+    public Set<String> getEmails() {
+        return emails;
+    }
 
     public void add(String email) {
         emails.add(email);

@@ -20,7 +20,7 @@ public class ToScan {
             Pattern p = Pattern.compile(add);
             Matcher m = p.matcher(input);
 
-            if (input.equals(list) && emailList.emails.isEmpty()) {
+            if (input.equals(list) && emailList.getEmails().isEmpty()) {
                 System.out.println("Список пока пуст");
                 continue;
             }
