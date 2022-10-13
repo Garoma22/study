@@ -30,6 +30,8 @@ public class PhoneBook {
                 }
             }
 
+            // ВВОД ПО ИМЕНИ
+
             if (!ss.matches(list) && !ss.matches(inputNum) && ss.matches(normalName)) {   //ВВОД ИМЕНИ
                 System.out.println("Вы ввели имя " + ss);
 
@@ -67,10 +69,10 @@ public class PhoneBook {
 
             if (!ss.matches(list) && ss.matches(inputNum)) {  //ВВОД  НОМЕРА
                 System.out.println("Вы ввели номер " + ss);
-                if(findEqualNums(ss) == null){
+                if(findEqualNums(ss) == null && !map.containsKey(ss)){
                     System.out.println("Такого номера нет в телефонной книге.");
                 }
-                if(findEqualNums(ss) != null ){
+                if(findEqualNums(ss) != null ){ // если != null, значит совпадение номера в мапе.
                     System.out.println("Внимание! Это один из номеров абонента " + findEqualNums(ss)+
                             ". Перезаписи не будет.");
                     continue;
