@@ -1,18 +1,22 @@
 package Part2.EmailList;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class EmailList {
+    private final Set<String> emails = new TreeSet<>();
+
+    public Set<String> getEmails() {
+        return emails;
+    }
 
     public void add(String email) {
-        // TODO: валидный формат email добавляется, email это строка, она быть может любой
-        // принять решение добавлять аргумент email или нет должен этот метод
+        emails.add(email);
     }
-
-    public List<String> getSortedEmails() {
-        // TODO: возвращается сортированный список электронных адресов в алфавитном порядке
-        return new ArrayList<>();
+    public void showSortedEmails() {
+        int counter = 1;
+        for (String s : emails) {
+            System.out.println(counter + ". " + s.toLowerCase());
+            counter++;
+        }
     }
-
 }
