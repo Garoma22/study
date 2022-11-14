@@ -1,16 +1,17 @@
 package Part2.CoolNumbers;
 
+import java.io.*;
 import java.util.*;
+import java.util.function.ToDoubleBiFunction;
 
 public class CoolNumbers {
-
 
     // ЭТИ РЕГУЛЯРКИ ДЛЯ ПОИСКА НОМЕРОВ ПО КРИТЕРИЯМ "КРАСИВОСТИ", ЕСЛИ БЫ БЫЛ СПИСОК РАЗНЫХ НОМЕРОВ.
 
     private final String regex1 = "[ABEKMHOPCTXY]{1}(1{3})*(2{3})*(3{3})*(4{3})*(5{3})*" +
             "(6{3})*(7{3})*(8{3})*(9{3})*[ABEKMHOPCTXY]{2}([0][123456789]{1}\\d{0,1})";
 
-    private final  String regex2 = "[ABEKMHOPCTXY]{1}(1{3})*(2{3})*(3{3})*(4{3})*(5{3})*" +
+    private final String regex2 = "[ABEKMHOPCTXY]{1}(1{3})*(2{3})*(3{3})*(4{3})*(5{3})*" +
             "(6{3})*(7{3})*(8{3})*(9{3})*[ABEKMHOPCTXY]{2}([1]\\d{1,2})?";
 
     // БУКВЫ: А, В, Е, К, М, Н, О, Р, С, Т, У, Х
@@ -18,72 +19,103 @@ public class CoolNumbers {
     // номера должны биться с одной из двух
 
     static String words = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    static String numbers = "1234567890";
+    static String numbers = "0123456789";
     public static final int REGION_FIRST_NUM = 1;
     public static final int REGION_LAST_NUM = 9;
     static List<String> list = new ArrayList<>();
+    static List<String> list2 = new ArrayList<>();
+    static int counter = 0; // переменная счетчик
+    static int a = 0;
+    static int b = 1;
+    static int c = 0;
+    static int d = 0;
+    static int e = 0;
+    static int f = 0;
+    static int g = 0;
 
-    public static void generateCoolNumbers() {
+    static String[] wordsArr = words.split("");
+    static String[] numsArr = numbers.split("");
+//    static String[] totalArr = {wordsArr[a], numsArr[b], numsArr[b], numsArr[b], wordsArr[c], wordsArr[d],
+//            numsArr[e], numsArr[f], numsArr[g]};
 
-        char[] arr = CoolNumbers.createArray();  // метод складывает 2 массива
-        for (int i = 0; i < 2000005; i++) {
+    public static boolean doesFileExist() {
+        File file = new File("CoolNumsFile.txt");
+        if (file.exists()) {
+            return true;
+        }
+        return false;
+    }
 
-            String[] arrayCools = new String[9]; // массив - один крутой номерной знак
-
-            for (int j = 0; j < arrayCools.length; j++) {  // проходимся по номерному знаку
-
-                int p = (int) Math.floor(Math.random() * arr.length); // выбираем индекс символа из общего массива
-                String simbol = String.valueOf(arr[p]); // записываем его значение в строку символ
-
-                if (words.contains(simbol) && (j == 0 || j == 4 || j == 5)) {  // добавляем условие про буквы в номере
-                    arrayCools[j] = simbol;
-                }
-                if (numbers.contains(simbol) && (j == 1) && Integer.parseInt(simbol) != 0) { // прописали одинаковые 3 цифры
-                    arrayCools[1] = simbol;
-                    arrayCools[2] = simbol;
-                    arrayCools[3] = simbol;
-                    j = j + 2;
-                }
-
-                //ПИШЕМ РЕГИОН
-
-                // поиск первой цифры региона можно вынести в отдельны метод.
-                if (j == 6) {
-
-                    int startNumOfReg = (int) Math.round(Math.random());
-
-                    String l = String.valueOf(startNumOfReg);
-
-                    if (startNumOfReg == 0) {  // определяем вторую цифру региона если первая == 0. Например: 09
-                        int d = (int) (Math.random() * ((REGION_LAST_NUM - REGION_FIRST_NUM) + 1)) + REGION_FIRST_NUM;
-                        String ll = String.valueOf(d);
-                        arrayCools[6] = l;
-                        arrayCools[7] = ll;
-                        arrayCools[8] = "";
-                        break;
-                    }
-                    if (startNumOfReg == 1) {
-                        arrayCools[6] = l;
-
-                        arrayCools[7] = String.valueOf((int) Math.floor(Math.random() * 9));  // диапазон от 0 до 9
-
-                        int d = (int) Math.round(Math.random());
-                        if (d == 0) {
-                            arrayCools[8] = String.valueOf((int) Math.floor(Math.random() * (10 - 1))); // диапазон от 0 до 9
-
-                        } else {
-                            arrayCools[8] = "";
-                        }
-                        break;
-                    }
-                }
-                if (arrayCools[j] == null) {
-                    j--;
-                }
+    public static String ReadLastLine() throws IOException {
+        File file = new File("CoolNumsFile.txt");
+        String result;
+        try (RandomAccessFile raf = new RandomAccessFile(file, "r")) { //r это read mode
+            result = null;
+            long startIdx = file.length();
+            while (result == null || result.length() == 0) {
+                raf.seek(startIdx--);
+                raf.readLine();
+                result = raf.readLine();
             }
-            list.add(String.join("", arrayCools));
+        } catch (IOException ex) {
+            return null;
+        }
+        return result;
+    }
+
+    public static void generateCoolNumbers() throws IOException {
+
+        while (e != 2) {
+            while (f != numsArr.length) {
+                while (g != numsArr.length) {
+                    while (d != wordsArr.length) {
+                        while (c != wordsArr.length) {
+                            while (a != wordsArr.length) {
+                                while (b != 10) {
+
+                                  String[] totalArr = {wordsArr[a], numsArr[b], numsArr[b], numsArr[b], wordsArr[c], wordsArr[d],
+                                            numsArr[e], numsArr[f], numsArr[g]};
+
+                                    if (counter < 20000000) {
+                                        list.add(String.join("", totalArr));
+                                        b++; // это номер
+                                        counter++;
+                                    }
+                                    if (counter == 20000000) {
+                                        listToFile();
+                                        list.clear();
+                                        counter = 555;
+                                        System.out.println(counter);
+                                        System.out.println(ReadLastLine());
+                                        System.out.println(Arrays.toString(totalArr));
+                                    }
+                                    if (counter == 40000000) {
+                                        System.out.println(list.size() + " Длина листа");
+                                        System.out.println(list2.size() + " Длина листа 2");
+                                    }
+                                }
+                                b = 0; // то есть 3 первые цифры стали равны 111
+                                a++;   // первая буква увеличивается + 1
+                            }
+                            a = 0;
+                            c++;
+                        }
+                        c = 0;
+                        d++;
+                    }
+                    d = 0;             // e\f\g меняем на   \\ g\f\e
+                    // это делается для того, чтобы отсчет шел с конца региона
+                    g++;
+                }
+                g = 0;
+                f++;
+            }
+            f = 0;
+            e++;
         }
     }
+
+
     public static char[] createArray() {  // создали массив общий
 
         char[] charsWords = words.toCharArray();
@@ -100,10 +132,60 @@ public class CoolNumbers {
     }
 
     public static void showNumbers() {
+        int counter = 0;
         for (String s : list) {
-            System.out.println(s);
+            counter++;
+            if (counter == 333333) {
+                System.out.println(s);
+                counter = 0;
+            }
         }
     }
+
+
+    // TODO : тут перезаписывается файл и поэтому не получается его дописать. Надо это пофиксить
+
+    public static void listToFile() {
+        File file = new File("CoolNumsFile.txt");
+        try {
+            BufferedWriter bf = new BufferedWriter(new FileWriter(file, true));
+            int index = 0;
+            for (String s : list) {
+                index++;
+                if (index == 333333) {
+                    bf.write(s + "\n");
+                    index = 0;
+                }
+            }
+            // counter = 2000001;  // условие, которое дает возможность вернуться в метод generateCoolNumbers() в нужную часть ветвления
+            bf.flush();
+            bf.close();
+            generateCoolNumbers();
+
+            //
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public static void listToFile2() throws IOException {
+        FileWriter writer = new FileWriter("CoolNumsFile.txt", true);
+
+        int index = 0;
+        if (counter > 20000000) {
+            for (String s : list2) {
+                index++;
+                if (index == 333333) {
+                    writer.write(s + "\n");
+                    System.out.println();
+                    index = 0;
+                }
+            }
+        }
+        writer.close();
+    }
+
     public static String insertNum() {  // СКАНЕР ДЛЯ ВООДА ИСКОМОГО НОМЕРА
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
@@ -146,7 +228,7 @@ public class CoolNumbers {
     public static boolean searchInHashSet(HashSet<String> hashSet, String number) {
         long startTime = System.nanoTime();
         boolean b = hashSet.contains(number);
-        if(b){
+        if (b) {
             long nano_endTime = System.nanoTime();
             System.out.println("Элемент " + number + " содержится в HashSet" +
                     "\nСкорость поиска  binarySearchInHashSet : " +
@@ -161,6 +243,7 @@ public class CoolNumbers {
         return new TreeSet<>(list);
 
     }
+
     public static boolean searchInTreeSet(TreeSet<String> treeSet, String number) {
 
         long startTime = System.nanoTime();
