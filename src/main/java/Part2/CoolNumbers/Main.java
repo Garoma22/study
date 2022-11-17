@@ -11,26 +11,39 @@ import static Part2.CoolNumbers.CoolNumbers.*;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        CoolNumbers.generateCoolNumbers();
-        // CoolNumbers.listToFile();
-       // showNumbers();
 
-      //  System.out.println(ReadLastLine());
 
-//        System.out.println("Запускаем bruteForceSearchInList: ");
-//        System.out.println(bruteForceSearchInList(list, insertNum()));
-//
-//
-//        System.out.println("Запускаем binarySearchInList, введите номер для поиска:");
-//        System.out.println(binarySearchInList(list, insertNum()));
-//
-//
-//        System.out.println("Запускаем searchInHashSet, введите номер для поиска:");
-//        searchInHashSet(arrIntoHashSet(list), insertNum());
-//
-//
-//        System.out.println("Запускаем searchInTreeSet, введите номер для поиска");
-//        System.out.println(searchInTreeSet(arrToTreeSet(list), insertNum()));
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < numbers.length(); j++) {
+                for (int k = 1; k < numbers.length(); k++) {
+                        int[] arrRegions = {i, j, k};
+                        generateCoolNumbers(arrRegions);
+                    }
+                }
+            }
+
+        System.out.println("Длина получившегося листа : " + list2.size());
+        System.out.println("Запускаем bruteForceSearchInList: ");
+        System.out.println(
+
+                bruteForceSearchInList(list2, insertNum()));
+
+        System.out.println("Запускаем binarySearchInList, введите номер для поиска:");
+        System.out.println(
+
+                binarySearchInList(list2, insertNum()));
+
+        System.out.println("Запускаем searchInHashSet, введите номер для поиска:");
+
+        searchInHashSet(arrIntoHashSet(list2), insertNum());
+
+        System.out.println("Запускаем searchInTreeSet, введите номер для поиска");
+        System.out.println(
+
+                searchInTreeSet(arrToTreeSet(list2), insertNum()));
+
+        clearFile();
+
 
     }
 }
