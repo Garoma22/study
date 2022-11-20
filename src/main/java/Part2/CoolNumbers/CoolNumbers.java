@@ -36,13 +36,10 @@ public class CoolNumbers {
 
     public static boolean doesFileExist() {
         File file = new File("CoolNumsFile.txt");
-        if (file.exists()) {
-            return true;
-        }
-        return false;
+        return file.exists();
     }
 
-    public static String ReadLastLine() throws IOException {
+    public static String ReadLastLine() {
         File file = new File("CoolNumsFile.txt");
         String result;
         try (RandomAccessFile raf = new RandomAccessFile(file, "r")) { //r это read mode
@@ -80,7 +77,6 @@ public class CoolNumbers {
                         b++; // это номер
                         counter++;
                     }
-
                     b = 1; // то есть 3 первые цифры стали равны 111
                     a++;   // первая буква увеличивается + 1
                 }
@@ -93,17 +89,13 @@ public class CoolNumbers {
         d = 0;
         listToFile(list);
         list.clear();
-
     }
 
     public static void listToFile(List<String> list) {
         File file = new File("CoolNumsFile.txt");
         try {
             file.createNewFile();
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
-        try {
+
             BufferedWriter bf = new BufferedWriter(new FileWriter(file, true));
             int index = 0;
             for (String s : list) {
@@ -117,29 +109,26 @@ public class CoolNumbers {
             }
             bf.flush();
             bf.close();
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-
     public static void clearFile() {
-
         try {
             FileWriter fstream1 = new FileWriter("CoolNumsFile.txt");// конструктор с одним параметром - для перезаписи
             BufferedWriter out1 = new BufferedWriter(fstream1); //  создаём буферезированный поток
             out1.write(""); // очищаем, перезаписав поверх пустую строку
             out1.close(); // закрываем
 
-        } catch (Exception e)
-        {System.err.println("Error in file cleaning: " + e.getMessage());}
+        } catch (Exception e) {
+            System.err.println("Error in file cleaning: " + e.getMessage());
+        }
     }
-
-
     public static String insertNum() {  // СКАНЕР ДЛЯ ВООДА ИСКОМОГО НОМЕРА
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
     }
-
     public static boolean bruteForceSearchInList(List<String> list2, String number) {
         System.out.println("Введите номер для поиска");
         long startTime = System.nanoTime();
@@ -203,5 +192,4 @@ public class CoolNumbers {
         }
         return false;
     }
-
 }
