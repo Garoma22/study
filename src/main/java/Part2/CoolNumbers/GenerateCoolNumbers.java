@@ -83,7 +83,8 @@ public class GenerateCoolNumbers {
             bf.close();
 
         } catch (IOException e) {
-            throw new RuntimeException(e.getMessage());
+            //throw new RuntimeException(e.getMessage());
+            System.out.println("Проблема при создании или записи файла");
         }
     }
     public static void clearFile() { //чистим файл чтобы при каждом окончании работы программы
